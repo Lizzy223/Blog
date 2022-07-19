@@ -11,18 +11,7 @@ export default {
     Card,
     Footer,
   },
-  data () {
-    return {
-      jobs: [],
-    }
-  },
-  mounted () {
-
-      fetch('https://techcrunch.com/wp-json/wp/v2/posts')
-      .then(res => res.json())
-      .then(data =>this.jobs = data)
-      .catch(err=> console.log(err.message))
-  },
+ 
 };
 </script>
 
@@ -33,12 +22,11 @@ export default {
   
   <div class="grid-container">
     <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
   </div>
   <Footer />
-  {{jobs.id}}
+  
+    
+  
 
 </template>
 

@@ -1,4 +1,5 @@
 <template>
+<div v-for="job in jobs" :key="job.title">
     <div class="container">
         <div class="image">
              <img
@@ -8,15 +9,16 @@
         />
         </div>
         <div class="desc">
-            <p class="date">Front-end  &nbsp; <span style="color:#6E6E6E">1 Hour Ago</span> </p>
-            <p class="title">CSS Grid</p>
+            <p class="date">Front-end  &nbsp; <span style="color:#6E6E6E">{{job.date}}</span> </p>
+            <p class="title">{{job.title.rendered}}</p>
             <p class="content">
-               The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, 
-               making it easier to design web pages without having to use floats and positioning. </p>
+              {{job.content.rendered}}
+                </p>
             <br/>
             <div class="time">
-                <p>3 Min Read</p>
-                <p class="blue"> Read full  <img
+                <p>3 minutes</p>
+                <p class="blue"> 
+                    Read full  <img
           alt="blob"
           class="image__blob"
           src="@/assets/arrow.png"
@@ -24,12 +26,26 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
 export default {
   name: "Card",
+   data () {
+    return {
+      jobs: [],
+    }
+  },
+  mounted () {
+
+      fetch('https://techcrunch.com/wp-json/wp/v2/posts')
+      .then(res => res.json())
+      .then(data =>this.jobs = data)
+      .catch(err=> console.log(err.message))
+  },
 };
+
 </script>
 
 
@@ -84,6 +100,10 @@ export default {
     font-size: 14px;
     line-height: 1.5rem;
     font-family: 'Source Serif Pro', serif;
+    display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
 }
 
 .desc>.time{
