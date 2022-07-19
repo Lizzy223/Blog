@@ -38,7 +38,7 @@ export default {
     <Card/>
   </div>
   <Footer />
-  {{job.id}}
+  {{jobs.id}}
 
 </template>
 
