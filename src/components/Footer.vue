@@ -12,49 +12,13 @@ Getting started is easy. Just pay a one time <span style="font-weight:700;">$25 
                 join us
             </button>
         </div>
-        <router-link to="{name:'post-details', params:{id:job.id}}">
-            {{job.title}}
-        </router-link>
-        {{job.title}}
-        {{job.id}}
     </div>
 </template>
 
 <script>
 export default {
   name: "Footer",
-   data () {
-    return {
-      job: [],
-      loading: true,
-      errored: false
-    }
-  },
-  mounted () {
-    // axios
-    //   .get('https://techcrunch.com/wp-json/wp/v2/posts')
-    //   .then(response => {
-    //     this.info = response.data
-    //     console.log(info)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //     this.errored = true
-    //   })
-    //   .finally(() => this.loading = false)
-
-      fetch('https://techcrunch.com/wp-json/wp/v2/posts')
-      .then(res => res.json())
-      .then(data =>this.job = data)
-      .catch(err=> console.log(err.message))
-  },
- 
-  methods:{
-    Display(){
-       
-        console.log(job);
-    }
-  }
+   
 };
 </script>
 

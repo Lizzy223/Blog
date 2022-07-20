@@ -1,28 +1,33 @@
 <template>
-<div v-for="job in jobs" :key="job.title">
-    <div class="container">
-        <div class="image">
+<div v-if="loading" class="loading">Loading...</div>
+
+<div v-for="job in jobs" :key="job.id">   
+    <div class="container" @click="changeRoute()">
+        <div class="container__image">
              <img
           alt="card"
           class="image__blob"
           src="@/assets/card1.png"
         />
         </div>
-        <div class="desc">
-            <p class="date">Front-end  &nbsp; <span style="color:#6E6E6E">{{job.date}}</span> </p>
-            <p class="title">{{job.title.rendered}}</p>
-            <p class="content">
-              {{job.content.rendered}}
+        <div class="container__desc">
+            <p class="container__desc__date">
+               <span class='container__desc__date__slug'> {{job.slug}}</span>  &nbsp; <span style="color:#6E6E6E">{{job.date}}</span> </p>
+            <p class="container__desc__title">{{job.title.rendered.replace(/(\W+([0-9])*\W)/ig, "")}}</p>
+            <p class="container__desc__content">
+              {{job.content.rendered.replace(/(<([^>]+)>)/ig, "")}}
                 </p>
             <br/>
-            <div class="time">
+            <div class="container__desc__time">
                 <p>3 minutes</p>
-                <p class="blue"> 
+                <router-link class="container__desc__time__blue" :to="{name:'post-details', params: {id: job.id}}">
+                <p class="container__desc__time__blue"> 
                     Read full  <img
-          alt="blob"
-          class="image__blob"
-          src="@/assets/arrow.png"
-        /></p>
+                alt="blob"
+                class="image__blob"
+                src="@/assets/arrow.png"
+                /></p>
+                </router-link>
             </div>
         </div>
     </div>
@@ -32,6 +37,7 @@
 <script>
 export default {
   name: "Card",
+  
    data () {
     return {
       jobs: [],
@@ -41,15 +47,17 @@ export default {
 
       fetch('https://techcrunch.com/wp-json/wp/v2/posts')
       .then(res => res.json())
-      .then(data =>this.jobs = data)
+      .then(data =>this.jobs = data )
       .catch(err=> console.log(err.message))
+
+     
   },
 };
 
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Source+Serif+Pro&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
 
@@ -61,18 +69,13 @@ export default {
     justify-content:space-between;
     align-items: center;
     border: 1px solid #f5f5f5;
-}
-.container>.image{
+    margin-top:.75rem;
+
+    &__image{
     height:30%;
     width: 100%;
 }
-
-.container>.image>img{
-   
-    object-fit: contain;
-}
-
-.desc{
+    &__desc{
     height:60%;
     width:100%;
     padding: 1rem;
@@ -81,21 +84,26 @@ export default {
     justify-content: space-between;
     font-family: 'Source Serif Pro', serif;
 
-}
-.desc>.date{
+    &__date{
     font-weight: 700;
     font-size: .75em;
     color: #4b4b4b;
     font-family: 'Source Serif Pro', serif;
+    &__slug{
+        width: 13em;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 }
-.desc>.title{
+    &__title{
     font-weight: 900;
     font-size: 1.375em;
     color:#2c2c2c;
     font-family: 'Source Serif Pro', serif;
 }
-
-.desc>.content{
+    &__content{
     font-weight: 400;
     font-size: 14px;
     line-height: 1.5rem;
@@ -105,8 +113,7 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
 }
-
-.desc>.time{
+    &__time{
     color:#6e6e6e;
     font-size: 12px;
     font-weight: 500;
@@ -115,53 +122,54 @@ export default {
     display:flex;
     justify-content: space-between;
     align-items: center;
-}
 
-.desc>.time>.blue{
+    &__blue{
     color:#1473E6;
      display:flex;
     justify-content: space-between;
     align-items: center;
+    text-decoration: none;
 }
+}
+}
+}
+
 /* responsiveness  */
 @media (max-width: 820px) {
 .container{
     width: 50%;
     margin:auto;
     justify-items: center;
-}
 
-
-.desc{
-    width:100%;
+    &__desc{
+        width:100%;
     margin-top:1rem;
     height:20rem;
+    }
 }
-
 } 
-
 
 /* mobile view */
 @media (max-width: 420px){
     .container{
-    width: 90%;
+    width: 95%;
     margin:auto;
-}
-.container>.image{
-    height:30%;
-    width: 100%;
-    margin: auto;
-    margin-bottom:1rem;
-}
-.container>.image>img{
-   width: 95%;
-   margin:auto;
-    object-fit: contain;
-}
-.desc{
-    height: 25.5rem;
-    width:100%;
 
+    &__image{
+         height:30%;
+        width: 100%;
+        margin: auto;
+        margin-bottom:1rem;
+        &__img{
+             width: 95%;
+            margin:auto;
+            object-fit: contain;
+        }
+    }
+    &__desc{
+         height: 25.5rem;
+    width:100%;
+    }
 }
 }
 </style>

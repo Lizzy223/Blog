@@ -48,6 +48,7 @@ export default {
 }
 /* responsive */
 @media (max-width:480px){
+  /* "flutterwave-vue-v3": "^1.0.9", */
   .grid-container{
     grid-template-columns: repeat(1, 1fr);
     gap:1;
