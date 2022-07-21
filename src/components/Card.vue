@@ -1,5 +1,5 @@
 <template>
-<div v-if="loading" class="loading">Loading...</div>
+<div v-if="jobs === null" class="container container__desc__title ">Loading...</div>
 
 <div v-for="job in jobs" :key="job.id">   
     <div class="container" @click="changeRoute()">
